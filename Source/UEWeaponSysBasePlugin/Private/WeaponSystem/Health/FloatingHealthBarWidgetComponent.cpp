@@ -32,13 +32,13 @@ UFloatingHealthBarWidgetComponent::UFloatingHealthBarWidgetComponent() : Super()
 	this->SetIsReplicated(true);
 }
 
-void UFloatingHealthBarWidgetComponent::GetLifetimeReplicatedProps(TArray <FLifetimeProperty> & OutLifetimeProps) const
-{
-    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+// void UFloatingHealthBarWidgetComponent::GetLifetimeReplicatedProps(TArray <FLifetimeProperty> & OutLifetimeProps) const
+// {
+//     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-    //Replicate current health.
-    DOREPLIFETIME(UFloatingHealthBarWidgetComponent, CurrentHealth);
-}
+//     //Replicate current health.
+//     DOREPLIFETIME(UFloatingHealthBarWidgetComponent, CurrentHealth);
+// }
 
 void UFloatingHealthBarWidgetComponent::BeginPlay()
 {
@@ -62,40 +62,40 @@ void UFloatingHealthBarWidgetComponent::TickComponent(float DeltaTime, ELevelTic
     }
 }
 
-void UFloatingHealthBarWidgetComponent::OnHealthUpdate()
-{
-    //Client-specific functionality
+// void UFloatingHealthBarWidgetComponent::OnHealthUpdate()
+// {
+//     //Client-specific functionality
 	
-    if (Cast<ACharacter>(this->GetOwner())->IsLocallyControlled())
-    {
-        FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, healthMessage);
+//     if (Cast<ACharacter>(this->GetOwner())->IsLocallyControlled())
+//     {
+//         FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+//         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, healthMessage);
 
-        if (CurrentHealth <= 0)
-        {
-            FString deathMessage = FString::Printf(TEXT("You have been killed."));
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-        }
-    }
+//         if (CurrentHealth <= 0)
+//         {
+//             FString deathMessage = FString::Printf(TEXT("You have been killed."));
+//             GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+//         }
+//     }
 
-    //Server-specific functionality
-    if (this->GetOwner()->GetLocalRole() == ROLE_Authority)
-    {
-        FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetOwner()->GetFName().ToString(), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, healthMessage);
-    }
+//     //Server-specific functionality
+//     if (this->GetOwner()->GetLocalRole() == ROLE_Authority)
+//     {
+//         FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetOwner()->GetFName().ToString(), CurrentHealth);
+//         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, healthMessage);
+//     }
 
-    //Functions that occur on all machines. 
-    /*  
-        Any special functionality that should occur as a result of damage or death should be placed here. 
-    */
-   	if(Cast<UFloatingHealthBarWidget>(this->GetWidget()))
-	{
-		Cast<UFloatingHealthBarWidget>(this->GetWidget())->Health = CurrentHealth;
-	}
-}
+//     //Functions that occur on all machines. 
+//     /*  
+//         Any special functionality that should occur as a result of damage or death should be placed here. 
+//     */
+//    	if(Cast<UFloatingHealthBarWidget>(this->GetWidget()))
+// 	{
+// 		Cast<UFloatingHealthBarWidget>(this->GetWidget())->Health = CurrentHealth;
+// 	}
+// }
 
-void UFloatingHealthBarWidgetComponent::OnRep_CurrentHealth()
-{
-    OnHealthUpdate();
-}
+// void UFloatingHealthBarWidgetComponent::OnRep_CurrentHealth()
+// {
+//     OnHealthUpdate();
+// }

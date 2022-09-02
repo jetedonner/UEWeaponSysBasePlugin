@@ -106,16 +106,6 @@ void UHealthManagerComponent::OnHealthUpdate()
 		FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining. this->FloatingHealthBar IS NULL"), *GetOwner()->GetFName().ToString(), CurrentHealth);
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
 	}
-
-	if(this->FloatingHealthBarWidgetComponentInst)
-	{
-		this->FloatingHealthBarWidgetComponentInst->CurrentHealth = CurrentHealth;
-	}
-	else
-	{
-		FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining. this->FloatingHealthBarWidgetComponentInst IS NULL"), *GetOwner()->GetFName().ToString(), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
-	}
 }
 
 float UHealthManagerComponent::ApplyDamage(float DamageTaken)
