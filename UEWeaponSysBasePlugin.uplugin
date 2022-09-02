@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UEWeaponSysBasePlugin",
+	"Description": "A basic weapon system plugin for easily and quickly setting up your games weapons, projectiles, hitables and characters",
+	"Category": "Other",
+	"CreatedBy": "DaVe inc. Kim David Hauser",
+	"CreatedByURL": "http://kimhauser.ch",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UEWeaponSysBasePlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
