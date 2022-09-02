@@ -30,6 +30,7 @@ public class UEWeaponSysBasePlugin : ModuleRules
 				"Engine", 
 				"InputCore", 
 				"HeadMountedDisplay",
+                "UMG",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
