@@ -1,11 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//
+//  HealthManagerComponent.h
+//  UEWeaponSysBasePlugin
+//
+//  Created by Kim David Hauser on 02.09.22.
+//  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.
+//
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "HealthManagerComponent.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UEWEAPONSYSBASEPLUGIN_API UHealthManagerComponent : public UActorComponent
@@ -54,9 +59,14 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
+   	class UFloatingHealthBarWidgetComponent* FloatingHealthBarWidgetComponentInst;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
+   	class UFloatingHealthBarWidget* FloatingHealthBar;
+	
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
 };

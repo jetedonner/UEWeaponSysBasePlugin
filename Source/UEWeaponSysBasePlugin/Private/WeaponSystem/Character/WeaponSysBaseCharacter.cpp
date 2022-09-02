@@ -65,6 +65,7 @@ AWeaponSysBaseCharacter::AWeaponSysBaseCharacter()
 		if(HealthManagerComponent)
     	{
 			HealthManagerComponent->bEditableWhenInherited = true;
+			HealthManagerComponent->SetNetAddressable(); // Make DSO components net addressable
 			HealthManagerComponent->SetIsReplicated(true);
 			this->AddOwnedComponent(HealthManagerComponent);
 			// HealthManagerComponent->SetupAttachment(RootComponent);
@@ -174,17 +175,17 @@ void AWeaponSysBaseCharacter::OnResetVR()
 	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
 	// or:
 	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	//UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
 void AWeaponSysBaseCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		Jump();
+	Jump();
 }
 
 void AWeaponSysBaseCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		StopJumping();
+	StopJumping();
 }
 
 void AWeaponSysBaseCharacter::TurnAtRate(float Rate)
