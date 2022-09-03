@@ -11,9 +11,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
-// #include "Components/WidgetComponent.h"
-// #include "Utils/HUDFunc.h"
-// #include "Utils/Dbg.h"
 #include "FloatingHealthBarWidget.generated.h"
 
 /**
@@ -28,28 +25,8 @@ protected:
     virtual void NativeConstruct() override;
     
 public:
-
-    // /** Property replication */
-	// void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
     virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
     float Health = 100.0f;
-
-    // UPROPERTY(ReplicatedUsing=OnRep_Health, EditAnywhere, BlueprintReadWrite, Category="Health System")
-    // float Health = 100.0f;
-
-    // // UPROPERTY(ReplicatedUsing=OnRep_CurrentHealth)
-	// // float CurrentHealth;
-
-	// /** Response to health being updated. Called on the server immediately after modification, and on clients in response to a RepNotify*/
-	// void OnHealthUpdate();
-
-	// /** RepNotify for changes made to current health.*/
-	// UFUNCTION()
-	// void OnRep_Health();
-
-    // UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Health System")
-    // class UWidgetComponent* ParentWidgetComponent;
 };

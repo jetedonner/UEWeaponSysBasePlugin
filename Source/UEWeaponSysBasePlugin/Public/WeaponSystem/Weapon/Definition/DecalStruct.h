@@ -1,6 +1,6 @@
 //
 //  DecalStruct.h
-//  UE4 WeaponSystem Plugin
+//  UEWeaponSysBasePlugin
 //
 //  Created by Kim David Hauser on 03.07.22.
 //  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.

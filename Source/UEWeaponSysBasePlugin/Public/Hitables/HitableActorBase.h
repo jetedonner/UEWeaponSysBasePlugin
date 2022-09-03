@@ -1,6 +1,6 @@
 //
 //  HitableActorBase.h
-//  UEWeaponSystemPlugin
+//  UEWeaponSysBasePlugin
 //
 //  Created by Kim David Hauser on 31.03.22.
 //  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.
@@ -20,8 +20,6 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Utils/GlobalDefinitions.h"
 #include "WeaponSystem/Character/WeaponSysBaseCharacter.h"
-// #include "Score/MovingScoreWidgetBase.h"
-// #include "Score/ScoreHelper.h"
 #include "WeaponSystem/Common/HitableInterface.h"
 #include "HitableActorBase.generated.h"
 

@@ -1,6 +1,6 @@
 //
 //  FillCircleCrosshairUserWidget.h
-//  UEWeaponSystemPlugin
+//  UEWeaponSysBasePlugin
 //
 //  Created by Kim David Hauser on 22.08.22.
 //  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  WeaponDefinition.h
-//  UE4_WeaponSystemDemo
+//  UEWeaponSysBasePlugin
 //
 //  Created by Kim David Hauser on 24.03.22.
 //  Copyright © 2022 Epic Games, Inc. All rights reserved.

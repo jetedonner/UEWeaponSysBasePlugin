@@ -1,4 +1,10 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+//
+//  WeaponSysBaseCharacter.h
+//  UEWeaponSysBasePlugin
+//
+//  Created by Kim David Hauser on 03.09.22.
+//  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.
+//
 
 #pragma once
 
@@ -46,38 +52,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	// /** Getter for Max Health.*/
-	// UFUNCTION(BlueprintPure, Category="Health")
-	// FORCEINLINE float GetMaxHealth() const { return MaxHealth; } 
-
-	// /** Getter for Current Health.*/
-	// UFUNCTION(BlueprintPure, Category="Health")
-	// FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
-
-	// /** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
-	// UFUNCTION(BlueprintCallable, Category="Health")
-	// void SetCurrentHealth(float healthValue);
-
 	/** Event for taking damage. Overridden from APawn.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	float TakeDamage( float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser ) override;
 
 protected:
-
-	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
-	// UPROPERTY(EditDefaultsOnly, Category = "Health")
-	// float MaxHealth;
-
-	// /** The player's current health. When reduced to 0, they are considered dead.*/
-	// UPROPERTY(ReplicatedUsing=OnRep_CurrentHealth)
-	// float CurrentHealth;
-
-	// /** Response to health being updated. Called on the server immediately after modification, and on clients in response to a RepNotify*/
-	// void OnHealthUpdate();
-
-	// /** RepNotify for changes made to current health.*/
-	// UFUNCTION()
-	// void OnRep_CurrentHealth();
 
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Projectile")
 	TSubclassOf<class AWeaponSysBaseProjectile> ProjectileClass;
@@ -141,15 +120,6 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
-	// FORCEINLINE bool HasHitScore() const { return true; }
-
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
-	// FORCEINLINE int32 HitScore() const { return 200; }
-
-	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Weapon System")
-  	// bool HasHitScore(); virtual bool HasHitScore_Implementation() override;
 
 	virtual bool HasHitScore() override;
 
