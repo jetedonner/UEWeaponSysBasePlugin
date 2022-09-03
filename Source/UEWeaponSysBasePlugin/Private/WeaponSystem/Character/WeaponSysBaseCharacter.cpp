@@ -71,6 +71,26 @@ AWeaponSysBaseCharacter::AWeaponSysBaseCharacter()
 			// HealthManagerComponent->SetupAttachment(RootComponent);
 		}
     }
+
+	if(!ScoreManagerComponent)
+    {
+        ScoreManagerComponent = CreateDefaultSubobject<UScoreManagerComponent>(TEXT("Score Manager Component"));
+		if(ScoreManagerComponent)
+    	{
+			ScoreManagerComponent->bEditableWhenInherited = true;
+			ScoreManagerComponent->SetNetAddressable(); // Make DSO components net addressable
+			ScoreManagerComponent->SetIsReplicated(true);
+			this->AddOwnedComponent(ScoreManagerComponent);
+			// HealthManagerComponent->SetupAttachment(RootComponent);
+		}
+    }
+
+	if(!WeaponManagerComponent)
+    {
+        WeaponManagerComponent = CreateDefaultSubobject<UWeaponSysWeaponManager>(TEXT("Weapon Manager Component"));
+        WeaponManagerComponent->bEditableWhenInherited = true;
+        this->AddOwnedComponent(WeaponManagerComponent);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -128,10 +148,12 @@ void AWeaponSysBaseCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProper
 
 float AWeaponSysBaseCharacter::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
+	if(this->HasHitScore())
+	{
+		UDbg::DbgMsg(FString::Printf(TEXT("Score earned %d"), this->HitScore()), 5.0f, FColor::Purple);
+	}
+
 	return HealthManagerComponent->ApplyDamage(DamageTaken);
-    // float damageApplied = CurrentHealth - DamageTaken;
-    // SetCurrentHealth(damageApplied);
-    // return damageApplied;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -255,4 +277,14 @@ void AWeaponSysBaseCharacter::HandleFire_Implementation()
     spawnParameters.Owner = this;
 
     AWeaponSysBaseProjectile* spawnedProjectile = GetWorld()->SpawnActor<AWeaponSysBaseProjectile>(spawnLocation, spawnRotation, spawnParameters);
+}
+
+bool AWeaponSysBaseCharacter::HasHitScore()
+{
+    return true;
+}
+
+int32 AWeaponSysBaseCharacter::HitScore()
+{
+    return this->InitHitScore;
 }

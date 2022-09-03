@@ -89,5 +89,15 @@ void AWeaponSysBaseProjectile::OnProjectileImpact(UPrimitiveComponent* HitCompon
         UGameplayStatics::ApplyPointDamage(OtherActor, Damage, NormalImpulse, Hit, GetInstigator()->Controller, this, DamageType);
     }
 
+	AWeaponSysBaseCharacter* OtherPlayerCharacter = Cast<AWeaponSysBaseCharacter>(OtherActor);
+	if(OtherPlayerCharacter && OtherPlayerCharacter->HasHitScore())
+	{
+		AWeaponSysBaseCharacter* PlayerCharacter = Cast<AWeaponSysBaseCharacter>(this->GetOwner());
+		if(PlayerCharacter && PlayerCharacter->ScoreManagerComponent)
+		{
+			PlayerCharacter->ScoreManagerComponent->AddScore(OtherPlayerCharacter->HitScore());
+		}
+	}
+
     Destroy();
 }

@@ -12,8 +12,7 @@
 #include "Components/WidgetComponent.h"
 #include "FloatingHealthBarWidgetComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class UEWEAPONSYSBASEPLUGIN_API UFloatingHealthBarWidgetComponent : public UWidgetComponent
 {
 	GENERATED_BODY()
@@ -21,8 +20,8 @@ class UEWEAPONSYSBASEPLUGIN_API UFloatingHealthBarWidgetComponent : public UWidg
 public:
 	UFloatingHealthBarWidgetComponent();
 
-	// /** Property replication */
-	// void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	/** Property replication */
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	// Called when the game starts

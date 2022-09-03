@@ -5,10 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "WeaponSystem/Health/HealthManagerComponent.h"
+#include "WeaponSystem/Weapon/WeaponSysWeaponManager.h"
+#include "WeaponSystem/Score/ScoreManagerComponent.h"
+#include "WeaponSystem/Common/HitableInterface.h"
 #include "WeaponSysBaseCharacter.generated.h"
 
 UCLASS(config=Game)
-class AWeaponSysBaseCharacter : public ACharacter
+class AWeaponSysBaseCharacter : public ACharacter, public IHitableInterface
 {
 	GENERATED_BODY()
 
@@ -26,8 +29,14 @@ public:
 	/** Property replication */
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    class UWeaponSysWeaponManager* WeaponManagerComponent;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
     class UHealthManagerComponent* HealthManagerComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Score System")
+    class UScoreManagerComponent* ScoreManagerComponent;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -132,5 +141,21 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
+	// FORCEINLINE bool HasHitScore() const { return true; }
+
+	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
+	// FORCEINLINE int32 HitScore() const { return 200; }
+
+	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Weapon System")
+  	// bool HasHitScore(); virtual bool HasHitScore_Implementation() override;
+
+	virtual bool HasHitScore() override;
+
+	virtual int32 HitScore() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+	int32 InitHitScore = 100;
 };
 

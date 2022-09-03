@@ -59,7 +59,7 @@ void UHealthManagerComponent::BeginPlay()
 	}
 	else
 	{
-		UDbg::DbgMsg(FString::Printf(TEXT("FloatingHealthBarWidgetComponentInst NOT SET")), 5.0f, FColor::Purple); 
+		UDbg::DbgMsg(FString::Printf(TEXT("FloatingHealthBarWidgetComponentInst NOT SET")), 5.0f, FColor::Purple);
 	}
 }
 
@@ -77,21 +77,25 @@ void UHealthManagerComponent::OnHealthUpdate()
 	
     if (Cast<ACharacter>(this->GetOwner())->IsLocallyControlled())
     {
-        FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, healthMessage);
+        // FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+        // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, healthMessage);
+
+		UDbg::DbgMsg(FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth), 5.0f, FColor::Green);
 
         if (CurrentHealth <= 0)
         {
-            FString deathMessage = FString::Printf(TEXT("You have been killed."));
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+            // FString deathMessage = FString::Printf(TEXT("You have been killed."));
+            // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			UDbg::DbgMsg(FString::Printf(TEXT("You have been killed.")), 5.0f, FColor::Red);
         }
     }
 
     //Server-specific functionality
     if (this->GetOwner()->GetLocalRole() == ROLE_Authority)
     {
-        FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetOwner()->GetFName().ToString(), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
+        // FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetOwner()->GetFName().ToString(), CurrentHealth);
+        // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
+		UDbg::DbgMsg(FString::Printf(TEXT("%s now has %f health remaining."), *GetOwner()->GetFName().ToString(), CurrentHealth), 5.0f, FColor::Purple);
     }
 
     //Functions that occur on all machines. 
@@ -103,8 +107,32 @@ void UHealthManagerComponent::OnHealthUpdate()
 		this->FloatingHealthBar->Health = CurrentHealth;
 	}else
 	{
-		FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining. this->FloatingHealthBar IS NULL"), *GetOwner()->GetFName().ToString(), CurrentHealth);
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
+		// FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining. this->FloatingHealthBar IS NULL"), *GetOwner()->GetFName().ToString(), CurrentHealth);
+        // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, healthMessage);
+		UDbg::DbgMsg(FString::Printf(TEXT("%s now has %f health remaining. this->FloatingHealthBar IS NULL"), *GetOwner()->GetFName().ToString(), CurrentHealth), 5.0f, FColor::Purple);
+	}
+
+	ACharacter* OwnerCharacter = Cast<ACharacter>(this->GetOwner());
+	if(OwnerCharacter)
+	{
+		APlayerController* WeaponSysBasePlayerController = Cast<APlayerController>(OwnerCharacter->Controller);
+		if(WeaponSysBasePlayerController)
+		{
+			AWeaponSysHUDBase* WeaponSystemHUD = Cast<AWeaponSysHUDBase>(WeaponSysBasePlayerController->MyHUD);//Cast<APlayerController>(OwnerCharacter->GetController())->GetHUD());
+			if(WeaponSystemHUD && WeaponSystemHUD->InfoHUDWidget)
+			{   
+				WeaponSystemHUD->InfoHUDWidget->Health = CurrentHealth;
+				// UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD->InfoHUDWidget->Score = Score!!!!")), 5.0f, FColor::Red);
+			}
+			else
+			{
+				UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD->InfoHUDWidget NOT Found!")), 5.0f, FColor::Red);
+			}
+		}
+		else
+		{
+			UDbg::DbgMsg(FString::Printf(TEXT("WeaponSysBasePlayerController NOT Found!")), 5.0f, FColor::Red);
+		}
 	}
 }
 

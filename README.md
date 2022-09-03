@@ -1,4 +1,4 @@
-# UE4_WeaponSystem
+# UEWeaponSysBasePlugin
 The UE4 WeaponSystem Plugin provides you with many base classes and features to quickly and easily creating and implementing your own weapon system for your Unreal Engine Game
 
 
@@ -12,7 +12,9 @@ The "Weapon System Base" provides you with some very basic and useful classes an
 ## Technical Information
 Features: (Please include a full, comprehensive list of the features of the product)
 
- Number of Unique Meshes:
+Number of Unique Meshes:
+
+Replicated: Fully replicated for multiplayer game play over network
 
 Collision: (Yes/No, and specify which type -- custom, automatically generated, or per-poly?)
 
@@ -26,11 +28,7 @@ Number of Textures:
 
 Texture Resolutions: (Please list all various texture resolutions)
 
-Supported Development Platforms:
-
-Windows: (Yes/No)
-
-Mac: (Yes/No)
+Supported Development Platforms: MacOS, Win32, Win64, Android, Linux, iOS
 
 Documentation: Link (or a description of where users can find) the documentation
 
