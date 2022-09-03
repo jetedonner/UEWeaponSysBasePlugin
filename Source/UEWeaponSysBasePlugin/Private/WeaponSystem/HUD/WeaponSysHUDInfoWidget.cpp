@@ -17,3 +17,9 @@ void UWeaponSysHUDInfoWidget::NativeTick(const FGeometry& MyGeometry, float InDe
 {
     Super::NativeTick(MyGeometry, InDeltaTime);
 }
+
+void UWeaponSysHUDInfoWidget::ShowInfoMessage(const FString& Title, const FString& Desc)
+{
+    // UDbg::DbgMsg(FString::Printf(TEXT("UWeaponSysHUDInfoWidget::ShowInfoMessage")), 5.0f, FColor::Green);
+    this->OnShowInfoMessage(Title, Desc);
+}

@@ -89,6 +89,11 @@ void AWeaponSysBaseProjectile::OnProjectileImpact(UPrimitiveComponent* HitCompon
         UGameplayStatics::ApplyPointDamage(OtherActor, Damage, NormalImpulse, Hit, GetInstigator()->Controller, this, DamageType);
     }
 
+	if(OtherComp->IsSimulatingPhysics())
+	{
+		OtherComp->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+	}
+
 	AWeaponSysBaseCharacter* OtherPlayerCharacter = Cast<AWeaponSysBaseCharacter>(OtherActor);
 	if(OtherPlayerCharacter && OtherPlayerCharacter->HasHitScore())
 	{

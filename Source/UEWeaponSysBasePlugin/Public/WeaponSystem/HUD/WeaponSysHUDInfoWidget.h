@@ -46,6 +46,18 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     int32 AmmoCountTotal = 30;
 
+    UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
+    void ShowInfoMessage(const FString& Title, const FString& Desc);
+
+    // UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
+    // void ShowReloadProgressBar(float ReloadTime);
+
+    UFUNCTION(BlueprintImplementableEvent, Category="Weapon System|HUD")
+    void OnShowInfoMessage(const FString& Title, const FString& Desc);
+
+    UFUNCTION(BlueprintImplementableEvent, Category="Weapon System|HUD")
+    void OnShowReloadProgressBar(float ReloadTime);
+
     // UPROPERTY(ReplicatedUsing=OnRep_Health, EditAnywhere, BlueprintReadWrite, Category="Health System")
     // float Health = 100.0f;
 

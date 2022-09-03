@@ -14,6 +14,6 @@ class UEWEAPONSYSBASEPLUGIN_API AWeaponSysBasePlayerController : public APlayerC
 {
 	GENERATED_BODY()
 	
-public:
-	void OnPossess(APawn* InPawn);
+// public:
+// 	void OnPossess(APawn* InPawn);
 };

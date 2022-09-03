@@ -10,7 +10,7 @@ AWeaponSysGameModeBase::AWeaponSysGameModeBase():Super()
 
 	//you can set whatever (if any) other default framework classes
     //you wish for this game mode as well
-	// DefaultPawnClass = ACustomPawn::StaticClass();
+	DefaultPawnClass = AWeaponSysBaseCharacter::StaticClass();
 	// GameStateClass = ACustomGameState::StaticClass();
 	HUDClass = AWeaponSysHUDBase::StaticClass();
 	// ReplaySpectatorPlayerControllerClass = ACustomReplaySpectatorPlayerController::StaticClass();

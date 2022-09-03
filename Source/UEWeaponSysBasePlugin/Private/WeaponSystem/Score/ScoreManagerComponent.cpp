@@ -3,14 +3,10 @@
 
 #include "WeaponSystem/Score/ScoreManagerComponent.h"
 
-// Sets default values for this component's properties
 UScoreManagerComponent::UScoreManagerComponent() : Super()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	this->SetIsReplicatedByDefault(true);
-	// ...
 }
 
 void UScoreManagerComponent::GetLifetimeReplicatedProps(TArray <FLifetimeProperty> & OutLifetimeProps) const
@@ -20,58 +16,46 @@ void UScoreManagerComponent::GetLifetimeReplicatedProps(TArray <FLifetimePropert
     DOREPLIFETIME(UScoreManagerComponent, Score);
 }
 
-// Called when the game starts
 void UScoreManagerComponent::BeginPlay()
 {
-	Super::BeginPlay();
-
-	// ...
-	
+	Super::BeginPlay();	
 }
 
-
-// Called every frame
 void UScoreManagerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UScoreManagerComponent::OnScoreUpdate()
 {
-	UDbg::DbgMsg(FString::Printf(TEXT("New score is: %d."), Score), 5.0f, FColor::Green);
+	if (Cast<ACharacter>(this->GetOwner())->IsLocallyControlled())
+    {
+		UDbg::DbgMsg(FString::Printf(TEXT("New score is: %d."), Score), 5.0f, FColor::Green);
 
-	ACharacter* OwnerCharacter = Cast<ACharacter>(this->GetOwner());
-	if(OwnerCharacter)
-	{
-		APlayerController* WeaponSysBasePlayerController = Cast<APlayerController>(OwnerCharacter->Controller);
-		if(WeaponSysBasePlayerController)
+		ACharacter* OwnerCharacter = Cast<ACharacter>(this->GetOwner());
+		if(OwnerCharacter)
 		{
-			AWeaponSysHUDBase* WeaponSystemHUD = Cast<AWeaponSysHUDBase>(WeaponSysBasePlayerController->MyHUD);//Cast<APlayerController>(OwnerCharacter->GetController())->GetHUD());
-			if(WeaponSystemHUD && WeaponSystemHUD->InfoHUDWidget)
-			{   
-				WeaponSystemHUD->InfoHUDWidget->Score = Score;
-				// UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD->InfoHUDWidget->Score = Score!!!!")), 5.0f, FColor::Red);
+			APlayerController* WeaponSysBasePlayerController = Cast<APlayerController>(OwnerCharacter->Controller);
+			if(WeaponSysBasePlayerController)
+			{
+				AWeaponSysHUDBase* WeaponSystemHUD = Cast<AWeaponSysHUDBase>(WeaponSysBasePlayerController->MyHUD);//Cast<APlayerController>(OwnerCharacter->GetController())->GetHUD());
+				if(WeaponSystemHUD && WeaponSystemHUD->InfoHUDWidget)
+				{   
+					WeaponSystemHUD->InfoHUDWidget->Score = Score;
+				}
+				else
+				{
+					UDbg::DbgMsg(FString::Printf(TEXT("SCORE: WeaponSystemHUD->InfoHUDWidget NOT Found!")), 5.0f, FColor::Red);
+				}
 			}
 			else
 			{
-				UDbg::DbgMsg(FString::Printf(TEXT("SCORE: WeaponSystemHUD->InfoHUDWidget NOT Found!")), 5.0f, FColor::Red);
+				UDbg::DbgMsg(FString::Printf(TEXT("SCORE: WeaponSysBasePlayerController NOT Found!")), 5.0f, FColor::Red);
 			}
 		}
-		else
-		{
-			UDbg::DbgMsg(FString::Printf(TEXT("SCORE: WeaponSysBasePlayerController NOT Found!")), 5.0f, FColor::Red);
-		}
 	}
-	// AWeaponSystemHUD* WeaponSystemHUD = Cast<AWeaponSystemHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	// if(WeaponSystemHUD && WeaponSystemHUD->InfoHUDWidget)
-	// {
-	// 	WeaponSystemHUD->InfoHUDWidget->Score = Score;
-	// }
 
     //Client-specific functionality
-	
     // if (Cast<ACharacter>(this->GetOwner())->IsLocallyControlled())
     // {
     //     // FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
@@ -119,15 +103,9 @@ void UScoreManagerComponent::SetScore(int32 Value)
 {
 	if (this->GetOwner()->GetLocalRole() == ROLE_Authority)
     {
-        // CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 		Score = Value;
         OnScoreUpdate();
     }
-	// AWeaponSystemHUD* WeaponSystemHUD = Cast<AWeaponSystemHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	// if(WeaponSystemHUD && WeaponSystemHUD->InfoHUDWidget)
-	// {
-	// 	WeaponSystemHUD->InfoHUDWidget->Score = Score;
-	// }	
 }
 
 void UScoreManagerComponent::AddScore(int32 Value)
