@@ -103,6 +103,13 @@ void AWeaponSysBaseProjectile::OnProjectileImpact(UPrimitiveComponent* HitCompon
 			PlayerCharacter->ScoreManagerComponent->AddScore(OtherPlayerCharacter->HitScore());
 		}
 	}
-
-    Destroy();
+	// else
+	// {
+	// 	//Destroy();
+	// }
+	
+	if(DestroyOnImpact)
+	{
+    	Destroy();
+	}
 }

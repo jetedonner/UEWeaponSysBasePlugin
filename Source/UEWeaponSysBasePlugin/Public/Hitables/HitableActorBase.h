@@ -21,6 +21,7 @@
 #include "Utils/GlobalDefinitions.h"
 #include "WeaponSystem/Character/WeaponSysBaseCharacter.h"
 #include "WeaponSystem/Common/HitableInterface.h"
+#include "WeaponSystem/Score/ScoreHelper.h"
 #include "HitableActorBase.generated.h"
 
 UCLASS(Abstract, Blueprintable)
@@ -52,6 +53,9 @@ public:
     
     bool IsHit = false;
     
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Event|Hit")
+    bool ShowHitScore = true;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Event|Hit")
     float HitScore = 100.0f;
     

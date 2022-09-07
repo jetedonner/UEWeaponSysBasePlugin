@@ -47,7 +47,9 @@ public:
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
     // bool HasHitScore = true;
 
+	// UFUNCTION(BlueprintCallable, Category="Score System")
 	virtual bool HasHitScore();
 
+	// UFUNCTION(BlueprintCallable, Category="Score System")
 	virtual int32 HitScore();
 };

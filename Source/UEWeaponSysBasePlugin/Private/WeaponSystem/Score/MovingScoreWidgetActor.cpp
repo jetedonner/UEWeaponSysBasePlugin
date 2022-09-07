@@ -27,7 +27,8 @@ AMovingScoreWidgetActor::AMovingScoreWidgetActor()
         MovingScoreWidgetComponent->SetAbsolute(false, false, true);
         MovingScoreWidgetComponent->SetRelativeLocation(FVector(0, 0, 150 + 20));
         MovingScoreWidgetComponent->SetCollisionProfileName(TEXT("UI"));
-        MovingScoreWidgetComponent->SetupAttachment(RootComponent);
+        // MovingScoreWidgetComponent->SetupAttachment(RootComponent);
+        RootComponent = MovingScoreWidgetComponent;
     }
 }
 

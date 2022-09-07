@@ -43,7 +43,11 @@ public:
 
 	//The damage dealt by this projectile.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Damage")
-	float Damage;
+	float Damage = 5.0f;
+
+	//The damage dealt by this projectile.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Damage")
+	bool DestroyOnImpact = true;
 
 protected:
 	// Called when the game starts or when spawned

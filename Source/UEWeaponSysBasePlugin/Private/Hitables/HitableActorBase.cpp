@@ -47,10 +47,10 @@ void AHitableActorBase::BeginPlay()
         CollisionComponent->OnComponentHit.AddDynamic(this, &AHitableActorBase::OnHit);
     }
 
-    if(MeshComponent)
-    {
-        MeshComponent->OnComponentHit.AddDynamic(this, &AHitableActorBase::OnHit);
-    }
+    // if(MeshComponent)
+    // {
+    //     MeshComponent->OnComponentHit.AddDynamic(this, &AHitableActorBase::OnHit);
+    // }
 }
 
 void AHitableActorBase::Tick(float DeltaTime)
@@ -59,7 +59,14 @@ void AHitableActorBase::Tick(float DeltaTime)
 }
 
 void AHitableActorBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
+{   
+
+    // UDbg::DbgMsg(FString::Printf(TEXT("ActorLocation %s"), *GetActorLocation().ToString()), 5.0f, FColor::Purple);
+
+    if(ShowHitScore)
+    {
+        UScoreHelper::SpawnMovingScoreWidget(GetWorld(), HitScore, GetActorLocation(), GetActorRotation());
+    }
     // UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit BASE")), 5.0f, FColor::Green);
     // if(ShowMovingScoreWidget)
     // {
@@ -87,6 +94,7 @@ void AHitableActorBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAc
     // {
     //     // UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit => ShowMovingScoreWidget == FALSE!")), 5.0f, FColor::Purple);
     // }
+    // FString::Printf();
     this->OnHitted(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
 }
 
