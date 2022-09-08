@@ -148,9 +148,10 @@ void AWeaponSysBaseCharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProper
 
 float AWeaponSysBaseCharacter::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	if(this->HasHitScore())
+	if(this->HasHitScore() && (this->GetHitScore() > 0.f || this->GetHitScore() < 0.f))
 	{
-		UDbg::DbgMsg(FString::Printf(TEXT("Score earned %d"), this->HitScore()), 5.0f, FColor::Purple);
+		// UDbg::DbgMsg(FString::Printf(TEXT("Score earned %d"), this->HitScore()), 5.0f, FColor::Purple);
+		UScoreHelper::SpawnMovingScoreWidget(GetWorld(), this->GetHitScore(), GetActorLocation(), GetActorRotation());
 	}
 
 	return HealthManagerComponent->ApplyDamage(DamageTaken);
@@ -276,7 +277,7 @@ void AWeaponSysBaseCharacter::HandleFire_Implementation()
     spawnParameters.Instigator = GetInstigator();
     spawnParameters.Owner = this;
 
-    AWeaponSysBaseProjectile* spawnedProjectile = GetWorld()->SpawnActor<AWeaponSysBaseProjectile>(spawnLocation, spawnRotation, spawnParameters);
+    AWeaponSysBaseProjectile* spawnedProjectile = GetWorld()->SpawnActor<AWeaponSysBaseProjectile>(ProjectileClass, spawnLocation, spawnRotation, spawnParameters);
 }
 
 bool AWeaponSysBaseCharacter::HasHitScore()
@@ -284,7 +285,7 @@ bool AWeaponSysBaseCharacter::HasHitScore()
     return true;
 }
 
-int32 AWeaponSysBaseCharacter::HitScore()
+int32 AWeaponSysBaseCharacter::GetHitScore()
 {
-    return this->InitHitScore;
+    return this->HitScore;
 }

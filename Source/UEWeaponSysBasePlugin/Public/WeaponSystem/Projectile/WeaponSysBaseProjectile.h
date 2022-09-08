@@ -37,6 +37,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	class UParticleSystem* ExplosionEffect;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    class USoundCue* ImpactHitSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    class USoundCue* ImpactFailSound;
+
 	//The damage type and damage that will be done by this projectile
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Damage")
 	TSubclassOf<class UDamageType> DamageType;

@@ -58,9 +58,6 @@ public:
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Projectile")
-	TSubclassOf<class AWeaponSysBaseProjectile> ProjectileClass;
-
 	/** Delay between shots in seconds. Used to control fire rate for our test projectile, but also to prevent an overflow of server functions from binding SpawnProjectile directly to input.*/
 	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
 	float FireRate;
@@ -116,6 +113,10 @@ protected:
 	// End of APawn interface
 
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Gameplay|Projectile")
+	TSubclassOf<class AWeaponSysBaseProjectile> ProjectileClass;
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
@@ -123,9 +124,9 @@ public:
 
 	virtual bool HasHitScore() override;
 
-	virtual int32 HitScore() override;
+	virtual int32 GetHitScore() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
-	int32 InitHitScore = 100;
+	int32 HitScore = 100;
 };
 

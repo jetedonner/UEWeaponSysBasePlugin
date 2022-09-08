@@ -45,6 +45,31 @@ void UWeaponSysWeaponManager::BeginPlay()
     // this->SetComponentTickInterval(0.05f);
 }
 
+void UWeaponSysWeaponManager::PickupWeapon(int32 WeaponID, int32 AmmoCount)
+{
+    UWeaponSysWeaponBase* const* FoundWeapon = WeaponArsenalImpl.FindByPredicate( [&](UWeaponSysWeaponBase* Result){ return WeaponID == Result->WeaponDefinition()->WeaponID;} );
+    if(FoundWeapon)
+    {
+        // UDbg::DbgMsg(FString::Printf(TEXT("PickupWeapon EXISTS AND FOUND")), 5.0f, FColor::Green);
+        if(AmmoCount >= 0)
+        {
+            (*FoundWeapon)->AmmoCount += AmmoCount;
+        }
+        
+        if(CurrentWeapon->WeaponDefinition()->WeaponID != WeaponID)
+        {
+            // IsAimedAtChar = false;
+            // IsAimedAtHitable = false;
+            // IsAimedAtPickup = false;
+            if(CurrentWeapon->IsShooting)
+            {
+                CurrentWeapon->StopShooting();
+            }
+        }
+        
+        // SetCurrentWeapon(WeaponID, false);
+    }
+}
 
 // Called every frame
 void UWeaponSysWeaponManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -54,3 +79,76 @@ void UWeaponSysWeaponManager::TickComponent(float DeltaTime, ELevelTick TickType
 	// ...
 }
 
+void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
+{
+    if(!CurrentWeapon || CurrentWeapon->WeaponDefinition()->WeaponID != WeaponID)
+    {
+//        IsAimedAtChar = false;
+//        IsAimedAtHitable = false;
+//        IsAimedAtPickup = false;
+        for(UWeaponSysWeaponBase* Weapon: WeaponArsenalImpl)
+        {
+            if(Weapon->WeaponDefinition()->WeaponID == WeaponID)
+            {
+//                if(IsReloading)
+//                {
+//                    IsReloading = false;
+//                }
+//
+//                if(IsShooting)
+//                {
+//                    GetWorld()->GetTimerManager().ClearTimer(ShootingTimerHandle);
+//                }
+
+                CurrentWeapon = Weapon;
+
+                AWeaponSysHUDBase* WeaponSystemHUD = Cast<AWeaponSysHUDBase>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+                if(WeaponSystemHUD)
+                {   
+                    // if(WeaponSystemHUD->CrosshairUserWidget)
+                    // {
+                    //     WeaponSystemHUD->CrosshairUserWidget->ShowCrosshair(WeaponID);
+                    // }
+
+                    if(WeaponSystemHUD->InfoHUDWidget)
+                    {
+                        WeaponSystemHUD->InfoHUDWidget->AmmoCountTotal = CurrentWeapon->AmmoCount;
+                        WeaponSystemHUD->InfoHUDWidget->AmmoCountClip = CurrentWeapon->GetClipAmmoCount();
+                    }
+                }
+//
+//                AWeaponSystemCharacterBase* MyOwner = Cast<AWeaponSystemCharacterBase>(this->GetOwner());
+//                if(CurrentWeapon && MyOwner && MyOwner->IsPlayerControlled())
+//                {
+//                    if(CurrentCSWidget)
+//                    {
+//                        CurrentCSWidget->RemoveFromViewport();
+//                        CurrentCSWidget->Destruct();
+//
+//                        UDbg::DbgMsg(FString::Printf(TEXT("Removing Current CS Widget")), 5.0f, FColor::Green);
+//                    }
+//
+//                    TSubclassOf<class UUserWidget> CSWidgetClass = CurrentWeapon->WeaponDefinition()->CrosshairUserWidget;
+//
+//                        if(CSWidgetClass)
+//                        {
+//                            UDbg::DbgMsg(FString::Printf(TEXT("HAS New CS Widget")), 5.0f, FColor::Green);
+//
+//                            CurrentCSWidget = CreateWidget<UUserWidget>(GetWorld(), CSWidgetClass);
+//                            if (CurrentCSWidget)
+//                            {
+//                                UDbg::DbgMsg(FString::Printf(TEXT("Adding Current CS Widget")), 5.0f, FColor::Green);
+//                                CurrentCSWidget->AddToViewport();
+//                            }
+//                        }
+//                }
+//
+//                if(WeaponChangeSound && PlayAudio)
+//                {
+//                    UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, this->WeaponChangeSound, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, 2.0, 1.0, 0.0f, nullptr, nullptr, true);
+//                }
+                break;
+            }
+        }
+    }
+}

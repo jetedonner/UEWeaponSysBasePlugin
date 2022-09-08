@@ -28,8 +28,8 @@ protected:
 
 public:	
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
-    bool IsTest = false;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    // bool IsTest = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     bool IsShooting = false;
@@ -43,6 +43,48 @@ public:
     // FWeaponDefinition* WeaponDefinition();
     
     EWeaponFunction CurrentWeaponFunction = EWeaponFunction::Primary;
+
+	FWeaponDefinition* WeaponDefinition();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System") //BlueprintGetter=GetAmmoCount, BlueprintSetter=SetAmmoCount, Category="Weapon System")
+    int32 AmmoCount;
+
+	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category="Weapon System")
+    int32 GetClipAmmoCount()
+    { 
+        // UE_LOG(LogTemp, Warning, TEXT("GetClipAmmoCount() %d"), WeaponDefinition()->ClipSize);
+        int32 ClipCount = AmmoCount % WeaponDefinition()->ClipSize;
+        if(AmmoCount > 0)
+        {
+            if(ClipCount > 0)
+            {
+                return ClipCount;
+            }
+            else
+            {
+                return WeaponDefinition()->ClipSize;
+            }
+        }
+        else
+        {
+            return AmmoCount;
+        }
+    }
+
+	UFUNCTION(BlueprintCallable, Category="Weapon System")
+    void StartShooting(EWeaponFunction WeaponFunction = EWeaponFunction::Primary);
+    
+    UFUNCTION(BlueprintCallable, Category="Weapon System")
+    void StopShooting();
+    
+    UFUNCTION(BlueprintCallable, Category="Weapon System")
+    void FireShot();
+    
+    // UFUNCTION(BlueprintCallable, Category="Weapon System")
+    // void StartReloading();
+    
+    // UFUNCTION(BlueprintCallable, Category="Weapon System")
+    // void FinishReloading();
 
 	// // Called every frame
 	// virtual void Tick(float DeltaTime) override;

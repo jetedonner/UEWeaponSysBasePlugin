@@ -59,21 +59,18 @@ AWeaponSysBaseProjectile::AWeaponSysBaseProjectile()
 	DamageType = UDamageType::StaticClass();
 	Damage = 10.0f;
 
-
 }
 
 // Called when the game starts or when spawned
 void AWeaponSysBaseProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AWeaponSysBaseProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AWeaponSysBaseProjectile::Destroyed()
@@ -100,9 +97,20 @@ void AWeaponSysBaseProjectile::OnProjectileImpact(UPrimitiveComponent* HitCompon
 		AWeaponSysBaseCharacter* PlayerCharacter = Cast<AWeaponSysBaseCharacter>(this->GetOwner());
 		if(PlayerCharacter && PlayerCharacter->ScoreManagerComponent)
 		{
-			PlayerCharacter->ScoreManagerComponent->AddScore(OtherPlayerCharacter->HitScore());
+			PlayerCharacter->ScoreManagerComponent->AddScore(OtherPlayerCharacter->GetHitScore());
 		}
 	}
+
+	if(ImpactHitSound)
+	{
+		// UDbg::DbgMsg(FString::Printf(TEXT("ImpactHitSound IS SET!")));
+		UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, ImpactHitSound, GetActorLocation(), FRotator::ZeroRotator, 1.0, 1.0, 0.0f, nullptr, nullptr, true);
+	}
+	// else
+	// {
+	// 	UDbg::DbgMsg(FString::Printf(TEXT("ImpactHitSound IS NOT SET!")));
+	// }
+	
 	// else
 	// {
 	// 	//Destroy();

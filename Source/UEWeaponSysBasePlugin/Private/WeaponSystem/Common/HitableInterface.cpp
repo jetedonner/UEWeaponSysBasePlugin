@@ -13,7 +13,7 @@ bool IHitableInterface::HasHitScore()
     return false;
 }
 
-int32 IHitableInterface::HitScore()
+int32 IHitableInterface::GetHitScore()
 {
     return 100;
 }

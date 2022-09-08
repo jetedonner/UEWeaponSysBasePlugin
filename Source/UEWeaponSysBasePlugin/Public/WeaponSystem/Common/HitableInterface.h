@@ -34,22 +34,9 @@ class UEWEAPONSYSBASEPLUGIN_API IHitableInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Weapon System")
-    // void OnHitted(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	// classes using this interface must implement ReactToHighNoon
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
-	// bool HasHitScore();
-
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon System")
-	// int32 HitScore();
-
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Health System")
-    // bool HasHitScore = true;
-
 	// UFUNCTION(BlueprintCallable, Category="Score System")
 	virtual bool HasHitScore();
 
 	// UFUNCTION(BlueprintCallable, Category="Score System")
-	virtual int32 HitScore();
+	virtual int32 GetHitScore();
 };

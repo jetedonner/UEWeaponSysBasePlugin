@@ -55,3 +55,13 @@ What I manly did for this project was consolidating the most important stuff tha
     - <http://suake3d.kimhauser.ch>
     - <http://ivaccination.kimhauser.ch>
     - <kim@kimhauser.ch>
+
+LaserGun - GreyScale (Flaticon)
+<div> Icons made by <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+
+MG - GreyScale (Flaticon)
+<div> Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons"> Smashicons </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+
+
+RPG - GreyScale (Flaticon)
+<div> Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons"> Smashicons </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>

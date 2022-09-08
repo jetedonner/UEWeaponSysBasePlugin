@@ -35,6 +35,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     TArray<class UWeaponSysWeaponBase*> WeaponArsenalImpl;
 
+	UFUNCTION(BlueprintCallable, Category="Weapon System")
+    void PickupWeapon(int32 WeaponID, int32 AmmoCount);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Weapon System")
+    class UWeaponSysWeaponBase* CurrentWeapon;
+
+	UFUNCTION(BlueprintCallable, Category="Weapon System")
+    void SetCurrentWeapon(int32 WeaponID, bool PlayAudio = true);
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 

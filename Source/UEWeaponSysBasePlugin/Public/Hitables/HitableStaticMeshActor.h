@@ -10,6 +10,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/StaticMeshActor.h"
+#include "Components/SphereComponent.h"
 #include "HitableStaticMeshActor.generated.h"
 
 /**
@@ -48,6 +49,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon System")
     void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-    UFUNCTION(BlueprintCallable, Category="Weapon System")
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    // UFUNCTION(BlueprintCallable, Category="Weapon System")
+	// void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };
