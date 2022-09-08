@@ -35,6 +35,10 @@ public:
 	/** Property replication */
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	/** First person camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* FirstPersonCameraComponent;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     class UWeaponSysWeaponManager* WeaponManagerComponent;
 
@@ -128,5 +132,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
 	int32 HitScore = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FKey FPVKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+	bool FirstPersonView = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon System")
+	void ToggleFPV();
+
+	/** Returns FirstPersonCameraComponent subobject **/
+	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 };
 

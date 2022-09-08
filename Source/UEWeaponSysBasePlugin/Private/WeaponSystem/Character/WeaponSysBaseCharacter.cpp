@@ -49,6 +49,12 @@ AWeaponSysBaseCharacter::AWeaponSysBaseCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
+	// Create a CameraComponent	
+	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(50.f, 1.75f, 64.f)); // Position the camera
+	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+	
 	//Initialize the player's Health
 	// MaxHealth = 100.0f;
 	// CurrentHealth = MaxHealth;
@@ -187,8 +193,44 @@ void AWeaponSysBaseCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 	// Handle firing projectiles
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AWeaponSysBaseCharacter::StartFire);
+
+	FInputKeyBinding KBP_FPVKey(FInputChord(FPVKey, false, false, false, false), EInputEvent::IE_Pressed);
+    KBP_FPVKey.bConsumeInput = true;
+    KBP_FPVKey.bExecuteWhenPaused = false;
+
+    KBP_FPVKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    {
+        ToggleFPV();
+    });
+    PlayerInputComponent->KeyBindings.Add(KBP_FPVKey);
+    
+    // FInputKeyBinding KBR_PrimaryShootKey(FInputChord(FPVKey, false, false, false, false), EInputEvent::IE_Released);
+    // KBR_PrimaryShootKey.bConsumeInput = true;
+    // KBR_PrimaryShootKey.bExecuteWhenPaused = false;
+    // KBR_PrimaryShootKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    // {
+    //     StopShooting();
+    // });
+    // InputComponent->KeyBindings.Add(KBR_PrimaryShootKey);
+	// FPVKey
 }
 
+void AWeaponSysBaseCharacter::ToggleFPV()
+{
+	FirstPersonView = !FirstPersonView;
+	if(FirstPersonView)
+	{
+		//Activate 3rd person
+		FollowCamera->Deactivate();
+		FirstPersonCameraComponent->Activate();
+	}
+	else
+	{
+		//Activate 1st person
+		FirstPersonCameraComponent->Deactivate();
+		FollowCamera->Activate();
+	}
+}
 
 void AWeaponSysBaseCharacter::OnResetVR()
 {
