@@ -21,6 +21,7 @@ class UEWEAPONSYSBASEPLUGIN_API UWeaponSysWeaponBase : public UActorComponent
 public:	
 	// Sets default values for this actor's properties
 	UWeaponSysWeaponBase();
+    UWeaponSysWeaponBase(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned

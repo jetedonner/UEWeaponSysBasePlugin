@@ -46,6 +46,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     int32 AmmoCountTotal = 30;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    bool FPV = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FWeaponDefinition WeaponDefinition;
+
     UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
     void ShowInfoMessage(const FString& Title, const FString& Desc);
 

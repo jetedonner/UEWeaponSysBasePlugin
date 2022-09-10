@@ -84,6 +84,9 @@ public:
     class UParticleSystemComponent* ParticleSystemComponent;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon System")
+    FLinearColor ParticleColor;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon System")
     class UParticleSystem* PickupEffect;
     
     // UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")

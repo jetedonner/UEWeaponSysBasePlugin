@@ -68,6 +68,11 @@ void AWeaponPickupActor::BeginPlay()
         RotatingMovement->RotationRate = RotationRate;
     }
     
+    if(ParticleSystemComponent)
+    {
+        ParticleSystemComponent->SetVectorParameter(TEXT("Color"), FVector(ParticleColor));
+    }
+
     CollisionSphere->OnComponentHit.AddDynamic(this, &AWeaponPickupActor::OnHit);
 }
 
@@ -110,62 +115,67 @@ void AWeaponPickupActor::OnPickup(AWeaponSysBaseCharacter* WeaponSystemCharacter
 //     AWeaponSystemCharacter* WeaponSystemCharacter = Cast<AWeaponSystemCharacter>(OtherActor);
     if(WeaponSystemCharacter)
     {
-        FWeaponDefinition* CurrentWeaponDefinition = WeaponDefinitionRowHandle.DataTable->FindRow<FWeaponDefinition>(WeaponDefinitionRowHandle.RowName, ""); //WeaponDefinition.GetRow<FWeaponDefinition>("");
-        
-        if(CurrentWeaponDefinition)
+        if(!WeaponDefinitionRowHandle.IsNull())
         {
-            int32 DefPickUpCount = (PickUpCount < 0 ? CurrentWeaponDefinition->PickUpCount : PickUpCount);
-            // WeaponSystemCharacter->WeaponManagerComponent->PickupWeapon(CurrentWeaponDefinition->WeaponID, DefPickUpCount);
-            if(PickupSound)
+            FWeaponDefinition* CurrentWeaponDefinition = WeaponDefinitionRowHandle.DataTable->FindRow<FWeaponDefinition>(WeaponDefinitionRowHandle.RowName, ""); //WeaponDefinition.GetRow<FWeaponDefinition>("");
+            
+            if(CurrentWeaponDefinition)
             {
-                UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, PickupSound, GetActorLocation(), FRotator::ZeroRotator, 1.0, 1.0, 0.0f, nullptr, nullptr, true);
-            }
+                int32 DefPickUpCount = (PickUpCount < 0 ? CurrentWeaponDefinition->PickUpCount : PickUpCount);
+                // WeaponSystemCharacter->WeaponManagerComponent->PickupWeapon(CurrentWeaponDefinition->WeaponID, DefPickUpCount);
+                if(PickupSound)
+                {
+                    UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, PickupSound, GetActorLocation(), FRotator::ZeroRotator, 1.0, 1.0, 0.0f, nullptr, nullptr, true);
+                }
 
-            if(ShowMovingScoreWidget)
-            {
-                // AWeaponSystemProjectile* WeaponSystemProjectile = Cast<AWeaponSystemProjectile>(OtherActor);
-                // if(WeaponSystemProjectile)
-                // {
-                UScoreHelper::SpawnMovingScoreWidget(GetWorld(), HitScore, GetActorLocation(), GetActorRotation());
+                if(ShowMovingScoreWidget)
+                {
+                    // AWeaponSystemProjectile* WeaponSystemProjectile = Cast<AWeaponSystemProjectile>(OtherActor);
+                    // if(WeaponSystemProjectile)
+                    // {
+                    UScoreHelper::SpawnMovingScoreWidget(GetWorld(), HitScore, GetActorLocation(), GetActorRotation());
 
-                    // AWeaponSystemCharacter* WeaponSystemCharacter = Cast<AWeaponSystemCharacter>(WeaponSystemProjectile->GetInstigator());
-                    // if(WeaponSystemCharacter)
-                    // {
-                WeaponSystemCharacter->ScoreManagerComponent->AddScore(HitScore);
+                        // AWeaponSystemCharacter* WeaponSystemCharacter = Cast<AWeaponSystemCharacter>(WeaponSystemProjectile->GetInstigator());
+                        // if(WeaponSystemCharacter)
+                        // {
+                    WeaponSystemCharacter->ScoreManagerComponent->AddScore(HitScore);
+                        // }
+                        // else 
+                        // {
+                        //     UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemProjectile->GetInstigator() IIISSSS NULL")), 5.0f, FColor::Purple);
+                        // }
                     // }
-                    // else 
+                    // else
                     // {
-                    //     UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemProjectile->GetInstigator() IIISSSS NULL")), 5.0f, FColor::Purple);
+                    //     UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit => NOT A WeaponSystemProjectile!")), 5.0f, FColor::Purple);
                     // }
-                // }
-                // else
-                // {
-                //     UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit => NOT A WeaponSystemProjectile!")), 5.0f, FColor::Purple);
-                // }
+                }
+                else
+                {
+                    // UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit => ShowMovingScoreWidget == FALSE!")), 5.0f, FColor::Purple);
+                }
+
+                if(PickupEffect)
+                {
+                    FVector PickupEffectLocation = GetActorLocation();
+                    PickupEffectLocation.Z -= CollisionRadius;
+                    UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, PickupEffectLocation, FRotator(1), true, EPSCPoolMethod::AutoRelease, true);
+                    // UDbg::DbgMsg(FString::Printf(TEXT("PickupEffect FOUND")), 5.0f, FColor::Red, true);
+                }
+                else
+                {
+                    UDbg::DbgMsg(FString::Printf(TEXT("PickupEffect NOT Found")), 5.0f, FColor::Red);
+                }
+                this->Destroy();
             }
             else
             {
-                // UDbg::DbgMsg(FString::Printf(TEXT("AHitableActorBase::OnHit => ShowMovingScoreWidget == FALSE!")), 5.0f, FColor::Purple);
+                UDbg::DbgMsg(FString::Printf(TEXT("WeaponDefinition NOT FOUND (You must specify a WeaponDefinition for this Weapon!) => %s"), *WeaponDefinitionRowHandle.RowName.ToString()), 5.0f, FColor::Red);
             }
-//            if(PickupEffect)
-//            {
-//                FVector PickupEffectLocation = GetActorLocation();
-//                PickupEffectLocation.Z -= CollisionRadius;
-//
-//                UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, PickupEffectLocation, FRotator(1), true, EPSCPoolMethod::AutoRelease, true);
-//
-//                UDbg::DbgMsg(FString::Printf(TEXT("PickupEffect FOUND")), 5.0f, FColor::Red, true);
-//            }
-//            else
-//            {
-//                UDbg::DbgMsg(FString::Printf(TEXT("PickupEffect NOT Found")), 5.0f, FColor::Red);
-//            }
-            
-            this->Destroy();
         }
         else
         {
-            UDbg::DbgMsg(FString::Printf(TEXT("WeaponDefinition NOT FOUND (You must specify a WeaponDefinition for this Weapon!) => %s"), *WeaponDefinitionRowHandle.RowName.ToString()), 5.0f, FColor::Red);
+            UDbg::DbgMsg(FString::Printf(TEXT("No WeaponDefinition set for WeaponPickup => Please set one!")), 5.0f, FColor::Red);
         }
     }
     else

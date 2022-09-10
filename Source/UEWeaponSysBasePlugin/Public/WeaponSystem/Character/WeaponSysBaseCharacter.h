@@ -14,6 +14,7 @@
 #include "WeaponSystem/Weapon/WeaponSysWeaponManager.h"
 #include "WeaponSystem/Score/ScoreManagerComponent.h"
 #include "WeaponSystem/Common/HitableInterface.h"
+#include "WeaponSystem/HUD/WeaponSysHUDBase.h"
 #include "WeaponSysBaseCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -36,7 +37,7 @@ public:
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	/** First person camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Weapon System", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")

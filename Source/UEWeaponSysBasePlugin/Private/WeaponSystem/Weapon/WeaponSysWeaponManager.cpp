@@ -1,5 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+//
+//  WeaponSysWeaponManager.cpp
+//  UEWeaponSysBasePlugin
+//
+//  Created by Kim David Hauser on 08.09.22.
+//  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.
+//
 
 #include "WeaponSystem/Weapon/WeaponSysWeaponManager.h"
 
@@ -22,26 +27,28 @@ void UWeaponSysWeaponManager::BeginPlay()
     int32 idx = 0;
     for(TSubclassOf<UWeaponSysWeaponBase> Weapon: WeaponArsenal)
     {
-        UWeaponSysWeaponBase* NewWeapon = Cast<UWeaponSysWeaponBase>(Weapon->GetDefaultObject());
-        
-        UWeaponSysWeaponBase* NewWeaponImpl = NewObject<UWeaponSysWeaponBase>(this, NewWeapon->GetClass(), *NewWeapon->GetClass()->GetName());
+        if(Weapon)
+        {
+            UWeaponSysWeaponBase* NewWeapon = Cast<UWeaponSysWeaponBase>(Weapon->GetDefaultObject());
+            
+            UWeaponSysWeaponBase* NewWeaponImpl = NewObject<UWeaponSysWeaponBase>(this, NewWeapon->GetClass(), *NewWeapon->GetClass()->GetName());
 
-        // NewWeaponImpl->MuzzleOffset = MuzzleOffset;
-        // NewWeaponImpl->OnShotFiredDelegate.AddDynamic(this, &UWeaponSysWeaponManager::OnShotFired);        
-        // NewWeaponImpl->OnWeaponReloading.AddDynamic(this, &UWeaponSysWeaponManager::WeaponReloading);
+            // NewWeaponImpl->MuzzleOffset = MuzzleOffset;
+            // NewWeaponImpl->OnShotFiredDelegate.AddDynamic(this, &UWeaponSysWeaponManager::OnShotFired);        
+            // NewWeaponImpl->OnWeaponReloading.AddDynamic(this, &UWeaponSysWeaponManager::WeaponReloading);
 
-//        NewWeaponImpl->OnProjectileFireDelegate.AddDynamic(this, &UWeaponManagerComponentBase::ProjectileFired);
-//        NewWeaponImpl->OnProjectileHitDelegate.AddDynamic(this, &UWeaponManagerComponentBase::ProjectileHit);
+    //        NewWeaponImpl->OnProjectileFireDelegate.AddDynamic(this, &UWeaponManagerComponentBase::ProjectileFired);
+    //        NewWeaponImpl->OnProjectileHitDelegate.AddDynamic(this, &UWeaponManagerComponentBase::ProjectileHit);
 
-        NewWeaponImpl->RegisterComponent();
-        WeaponArsenalImpl.AddUnique(NewWeaponImpl);
-        // if(idx == 0)
-        // {
-        //     SetCurrentWeapon(NewWeaponImpl->WeaponDefinition()->WeaponID);
-        // }
-        idx++;
+            NewWeaponImpl->RegisterComponent();
+            WeaponArsenalImpl.AddUnique(NewWeaponImpl);
+            if(idx == 0)
+            {
+                SetCurrentWeapon(NewWeaponImpl->WeaponDefinition()->WeaponID);
+            }
+            idx++;
+        }
     }
-    
     // this->SetComponentTickInterval(0.05f);
 }
 
@@ -81,6 +88,8 @@ void UWeaponSysWeaponManager::TickComponent(float DeltaTime, ELevelTick TickType
 
 void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
 {
+    UDbg::DbgMsg(FString::Printf(TEXT("Setting current weapon")), 5.0f, FColor::Green);
+
     if(!CurrentWeapon || CurrentWeapon->WeaponDefinition()->WeaponID != WeaponID)
     {
 //        IsAimedAtChar = false;
@@ -112,9 +121,18 @@ void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
 
                     if(WeaponSystemHUD->InfoHUDWidget)
                     {
+                        WeaponSystemHUD->InfoHUDWidget->WeaponDefinition = *CurrentWeapon->WeaponDefinition();
                         WeaponSystemHUD->InfoHUDWidget->AmmoCountTotal = CurrentWeapon->AmmoCount;
                         WeaponSystemHUD->InfoHUDWidget->AmmoCountClip = CurrentWeapon->GetClipAmmoCount();
                     }
+                    else
+                    {
+                        UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD->InfoHUDWidget IS NULL")), 5.0f, FColor::Green);
+                    }
+                }
+                else
+                {
+                    UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD IS NULL")), 5.0f, FColor::Green);
                 }
 //
 //                AWeaponSystemCharacterBase* MyOwner = Cast<AWeaponSystemCharacterBase>(this->GetOwner());

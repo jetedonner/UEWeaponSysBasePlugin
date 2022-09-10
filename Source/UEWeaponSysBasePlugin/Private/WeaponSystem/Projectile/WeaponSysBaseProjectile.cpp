@@ -106,10 +106,10 @@ void AWeaponSysBaseProjectile::OnProjectileImpact(UPrimitiveComponent* HitCompon
 		// UDbg::DbgMsg(FString::Printf(TEXT("ImpactHitSound IS SET!")));
 		UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, ImpactHitSound, GetActorLocation(), FRotator::ZeroRotator, 1.0, 1.0, 0.0f, nullptr, nullptr, true);
 	}
-	// else
-	// {
-	// 	UDbg::DbgMsg(FString::Printf(TEXT("ImpactHitSound IS NOT SET!")));
-	// }
+	else
+	{
+		UDbg::DbgMsg(FString::Printf(TEXT("ImpactHitSound IS NOT SET!")));
+	}
 	
 	// else
 	// {

@@ -27,7 +27,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System", meta=(RequiredAssetDataTags="RowStructure=WeaponDefinition"))
+    UDataTable* WeaponDefinitions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     TArray<TSubclassOf<class UWeaponSysWeaponBase>> WeaponArsenal;

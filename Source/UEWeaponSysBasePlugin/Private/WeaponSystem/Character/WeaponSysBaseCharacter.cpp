@@ -230,6 +230,31 @@ void AWeaponSysBaseCharacter::ToggleFPV()
 		FirstPersonCameraComponent->Deactivate();
 		FollowCamera->Activate();
 	}
+
+	AWeaponSysHUDBase* WeaponSystemHUD = Cast<AWeaponSysHUDBase>(Cast<APlayerController>(Controller)->GetHUD());
+	if(WeaponSystemHUD)
+	{   
+		// if(WeaponSystemHUD->CrosshairUserWidget)
+		// {
+		//     WeaponSystemHUD->CrosshairUserWidget->ShowCrosshair(WeaponID);
+		// }
+
+		if(WeaponSystemHUD->InfoHUDWidget)
+		{
+			// WeaponSystemHUD->InfoHUDWidget->WeaponDefinition = *CurrentWeapon->WeaponDefinition();
+			// WeaponSystemHUD->InfoHUDWidget->AmmoCountTotal = CurrentWeapon->AmmoCount;
+			// WeaponSystemHUD->InfoHUDWidget->AmmoCountClip = CurrentWeapon->GetClipAmmoCount();
+			WeaponSystemHUD->InfoHUDWidget->FPV = FirstPersonView;
+		}
+		else
+		{
+			UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD->InfoHUDWidget IS NULL")), 5.0f, FColor::Green);
+		}
+	}
+	else
+	{
+		UDbg::DbgMsg(FString::Printf(TEXT("WeaponSystemHUD IS NULL")), 5.0f, FColor::Green);
+	}
 }
 
 void AWeaponSysBaseCharacter::OnResetVR()
@@ -296,7 +321,7 @@ void AWeaponSysBaseCharacter::MoveRight(float Value)
 
 void AWeaponSysBaseCharacter::StartFire()
 {
-    if (!bIsFiringWeapon)
+    if (!bIsFiringWeapon && WeaponManagerComponent && WeaponManagerComponent->CurrentWeapon)
     {
         bIsFiringWeapon = true;
         UWorld* World = GetWorld();

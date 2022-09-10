@@ -30,6 +30,16 @@ AWeaponSysHUDBase::AWeaponSysHUDBase() : Super()
 //     {
 //         UE_LOG(LogTemp, Warning, TEXT("InfoHUDWidgetClass NOT FOUND ..."));
 //     }
+
+    // if (InfoHUDWidgetClass != NULL)
+    // {
+    //     InfoHUDWidget = CreateWidget<UWeaponSysHUDInfoWidget>(this->GetOwningPlayerController(), InfoHUDWidgetClass); 
+    //     UE_LOG(LogTemp, Warning, TEXT("InfoHUDWidgetClass WAS FOUND ..."));
+    // }
+    // else
+    // {
+    //     UE_LOG(LogTemp, Warning, TEXT("InfoHUDWidgetClass NOT FOUND ..."));
+    // }
 }
 
 void AWeaponSysHUDBase::GetLifetimeReplicatedProps(TArray <FLifetimeProperty> & OutLifetimeProps) const
@@ -108,6 +118,7 @@ void AWeaponSysHUDBase::BeginPlay()
     {
         InfoHUDWidget->AddToViewport();
         CreatedWidgets.Add(InfoHUDWidget);
+        // InfoHUDWidget->WeaponDefinition = *Cast<AWeaponSysBaseCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))->WeaponManagerComponent->CurrentWeapon->WeaponDefinition();
     }
 }
 

@@ -1,15 +1,25 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+//
+//  WeaponSysWeaponBase.cpp
+//  UEWeaponSysBasePlugin
+//
+//  Created by Kim David Hauser on 08.09.22.
+//  Copyright © 1991 - 2022 DaVe Inc. kimhauser.ch, All rights reserved.
+//
 
 #include "WeaponSystem/Weapon/WeaponSysWeaponBase.h"
 
 // Sets default values
-UWeaponSysWeaponBase::UWeaponSysWeaponBase()
+UWeaponSysWeaponBase::UWeaponSysWeaponBase():Super()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	// PrimaryActorTick.bCanEverTick = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
+}
+
+UWeaponSysWeaponBase::UWeaponSysWeaponBase(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
+{
+    PrimaryComponentTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
