@@ -74,7 +74,7 @@ void UWeaponSysWeaponManager::PickupWeapon(int32 WeaponID, int32 AmmoCount)
             }
         }
         
-        // SetCurrentWeapon(WeaponID, false);
+        SetCurrentWeapon(WeaponID, false);
     }
 }
 
@@ -82,8 +82,120 @@ void UWeaponSysWeaponManager::PickupWeapon(int32 WeaponID, int32 AmmoCount)
 void UWeaponSysWeaponManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
 
-	// ...
+void UWeaponSysWeaponManager::SetupPlayerInput(class UInputComponent* PlayerInputComponent, class UInputComponent* InputComponent)
+{
+    FInputKeyBinding KBP_PrimaryShootKey(FInputChord(PrimaryShootKey, false, false, false, false), EInputEvent::IE_Pressed);
+    KBP_PrimaryShootKey.bConsumeInput = true;
+    KBP_PrimaryShootKey.bExecuteWhenPaused = false;
+
+    KBP_PrimaryShootKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    {
+        StartShooting(EWeaponFunction::Primary);
+    });
+    PlayerInputComponent->KeyBindings.Add(KBP_PrimaryShootKey);
+    
+    FInputKeyBinding KBR_PrimaryShootKey(FInputChord(PrimaryShootKey, false, false, false, false), EInputEvent::IE_Released);
+    KBR_PrimaryShootKey.bConsumeInput = true;
+    KBR_PrimaryShootKey.bExecuteWhenPaused = false;
+    KBR_PrimaryShootKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    {
+        StopShooting();
+    });
+    InputComponent->KeyBindings.Add(KBR_PrimaryShootKey);
+    
+    FInputKeyBinding KBP_SecondaryShootKey(FInputChord(SecondaryShootKey, false, false, false, false), EInputEvent::IE_Pressed);
+    KBP_SecondaryShootKey.bConsumeInput = true;
+    KBP_SecondaryShootKey.bExecuteWhenPaused = false;
+
+    KBP_SecondaryShootKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    {
+        StartShooting(EWeaponFunction::Secondary);
+    });
+    PlayerInputComponent->KeyBindings.Add(KBP_SecondaryShootKey);
+    
+    FInputKeyBinding KBR_SecondaryShootKey(FInputChord(SecondaryShootKey, false, false, false, false), EInputEvent::IE_Released);
+    KBR_SecondaryShootKey.bConsumeInput = true;
+    KBR_SecondaryShootKey.bExecuteWhenPaused = false;
+    KBR_SecondaryShootKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+    {
+        StopShooting();
+    });
+    InputComponent->KeyBindings.Add(KBR_SecondaryShootKey);
+    
+//     // AlternateCrosshairKey
+//     FInputKeyBinding KBP_AlternateCrosshairKey(FInputChord(AlternateCrosshairKey, false, false, false, false), EInputEvent::IE_Pressed);
+//     KBP_AlternateCrosshairKey.bConsumeInput = true;
+//     KBP_AlternateCrosshairKey.bExecuteWhenPaused = false;
+
+//     KBP_AlternateCrosshairKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+//     {
+//         this->OnAlternateCrosshairDelegate.Broadcast(true);
+//     });
+//     PlayerInputComponent->KeyBindings.Add(KBP_AlternateCrosshairKey);
+    
+//     FInputKeyBinding KBR_AlternateCrosshairKey(FInputChord(AlternateCrosshairKey, false, false, false, false), EInputEvent::IE_Released);
+//     KBR_AlternateCrosshairKey.bConsumeInput = true;
+//     KBR_AlternateCrosshairKey.bExecuteWhenPaused = false;
+//     KBR_AlternateCrosshairKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+//     {
+//         this->OnAlternateCrosshairDelegate.Broadcast(false);
+//     });
+//     InputComponent->KeyBindings.Add(KBR_AlternateCrosshairKey);
+    
+//     FInputKeyBinding KBP_InitializeWeaponsKey(FInputChord(InitializeWeaponsKey, false, false, false, false), EInputEvent::IE_Pressed);
+//     KBP_InitializeWeaponsKey.bConsumeInput = true;
+//     KBP_InitializeWeaponsKey.bExecuteWhenPaused = false;
+
+//     KBP_InitializeWeaponsKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+//     {
+//         this->InitializeWeapons();
+//     });
+//     PlayerInputComponent->KeyBindings.Add(KBP_InitializeWeaponsKey);
+    
+// //     FInputKeyBinding KBR_InitializeWeaponsKey(FInputChord(InitializeWeaponsKey, false, false, false, false), EInputEvent::IE_Released);
+// //     KBR_InitializeWeaponsKey.bConsumeInput = true;
+// //     KBR_InitializeWeaponsKey.bExecuteWhenPaused = false;
+// //     KBR_InitializeWeaponsKey.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+// //     {
+// // //        UDbg::DbgMsg(FString("InitializeWeaponsKey RELEASED"));
+// //         WeaponComponent->OnAlternateCrosshair(false);
+// //     });
+// //     InputComponent->KeyBindings.Add(KBR_InitializeWeaponsKey);
+    
+    TArray<FName> RowNames = WeaponDefinitions->GetRowNames();
+    int32 idx = 0;
+    for ( auto& RowName : RowNames )
+    {
+        FWeaponDefinition* WeaponDefinition = WeaponDefinitions->FindRow<FWeaponDefinition>(RowName, "");
+        if(WeaponDefinition)
+        {
+            FInputKeyBinding KBP(FInputChord(WeaponDefinition->ActivationKey, false, false, false, false), EInputEvent::IE_Pressed);
+            KBP.bConsumeInput = true;
+            KBP.bExecuteWhenPaused = false;
+            KBP.KeyDelegate.GetDelegateWithKeyForManualSet().BindLambda([=](const FKey& Key)
+            {
+                SetCurrentWeapon(WeaponDefinition->WeaponID);
+            });
+            PlayerInputComponent->KeyBindings.Add(KBP);
+            if(idx == 0)
+            {
+                SetCurrentWeapon(WeaponDefinition->WeaponID);
+            }
+            idx++;
+        }
+    }
+}
+
+void UWeaponSysWeaponManager::StartShooting(EWeaponFunction WeaponFunction)
+{
+
+}
+    
+void UWeaponSysWeaponManager::StopShooting()
+{
+
 }
 
 void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
@@ -137,7 +249,7 @@ void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
 //
 //                AWeaponSystemCharacterBase* MyOwner = Cast<AWeaponSystemCharacterBase>(this->GetOwner());
 //                if(CurrentWeapon && MyOwner && MyOwner->IsPlayerControlled())
-//                {
+//                { 
 //                    if(CurrentCSWidget)
 //                    {
 //                        CurrentCSWidget->RemoveFromViewport();
@@ -161,10 +273,10 @@ void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
 //                        }
 //                }
 //
-//                if(WeaponChangeSound && PlayAudio)
-//                {
-//                    UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, this->WeaponChangeSound, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, 2.0, 1.0, 0.0f, nullptr, nullptr, true);
-//                }
+               if(WeaponChangeSound/* && PlayAudio*/)
+               {
+                   UAudioComponent* AudioComponent = UGameplayStatics::SpawnSoundAtLocation(this, this->WeaponChangeSound, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, 2.0, 1.0, 0.0f, nullptr, nullptr, true);
+               }
                 break;
             }
         }

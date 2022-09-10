@@ -55,7 +55,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     class USoundCue* ShootingSound;
     
-    // UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
-    // TSubclassOf<class AWeaponSystemProjectile> Projectile;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    TSubclassOf<class AWeaponSystemProjectile> Projectile;
 
 };

@@ -170,6 +170,7 @@ void AWeaponSysBaseCharacter::SetupPlayerInputComponent(class UInputComponent* P
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
+
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
@@ -192,7 +193,7 @@ void AWeaponSysBaseCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AWeaponSysBaseCharacter::OnResetVR);
 
 	// Handle firing projectiles
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AWeaponSysBaseCharacter::StartFire);
+	// PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AWeaponSysBaseCharacter::StartFire);
 
 	FInputKeyBinding KBP_FPVKey(FInputChord(FPVKey, false, false, false, false), EInputEvent::IE_Pressed);
     KBP_FPVKey.bConsumeInput = true;
@@ -203,6 +204,11 @@ void AWeaponSysBaseCharacter::SetupPlayerInputComponent(class UInputComponent* P
         ToggleFPV();
     });
     PlayerInputComponent->KeyBindings.Add(KBP_FPVKey);
+
+	if(WeaponManagerComponent)
+	{
+		WeaponManagerComponent->SetupPlayerInput(PlayerInputComponent, InputComponent);
+	}
     
     // FInputKeyBinding KBR_PrimaryShootKey(FInputChord(FPVKey, false, false, false, false), EInputEvent::IE_Released);
     // KBR_PrimaryShootKey.bConsumeInput = true;

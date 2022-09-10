@@ -11,6 +11,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "WeaponSystem/Weapon/Definition/WeaponDefinition.h"
+#include "Utils/UtilityTimer.h"
 #include "WeaponSysWeaponBase.generated.h"
 
 UCLASS()
@@ -27,10 +28,25 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+protected:
+
+    FTimerHandle ReloadingEndTimerHandle;
+    FTimerHandle ReloadingStartTimerHandle;
+    
+//    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    // FWeaponDefinition* CurrentWeaponDefinition;
+
+    FTimerHandle ShootingTimerHandle;
+    
+    class UtilityTimer* TimerUtil = new UtilityTimer();
+
 public:	
 	
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     // bool IsTest = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FVector MuzzleOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     bool IsShooting = false;

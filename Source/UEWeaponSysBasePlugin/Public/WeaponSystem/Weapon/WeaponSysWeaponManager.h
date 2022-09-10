@@ -35,8 +35,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     TArray<TSubclassOf<class UWeaponSysWeaponBase>> WeaponArsenal;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Weapon System")
     TArray<class UWeaponSysWeaponBase*> WeaponArsenalImpl;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FKey PrimaryShootKey;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FKey SecondaryShootKey;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FKey AlternateCrosshairKey;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    FKey InitializeWeaponsKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    class USoundCue* WeaponChangeSound;
+
+	void SetupPlayerInput(class UInputComponent* PlayerInputComponent, class UInputComponent* InputComponent);
+
+	UFUNCTION(BlueprintCallable, Category="Weapon System")
+    virtual void StartShooting(EWeaponFunction WeaponFunction = EWeaponFunction::Primary);
+    
+    UFUNCTION(BlueprintCallable, Category="Weapon System")
+    virtual void StopShooting();
 
 	UFUNCTION(BlueprintCallable, Category="Weapon System")
     void PickupWeapon(int32 WeaponID, int32 AmmoCount);
