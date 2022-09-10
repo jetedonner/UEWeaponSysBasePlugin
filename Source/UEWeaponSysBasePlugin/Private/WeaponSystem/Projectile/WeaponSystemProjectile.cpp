@@ -8,7 +8,7 @@
 
 #include "WeaponSystem/Projectile/WeaponSystemProjectile.h"
 
-AWeaponSystemProjectile::AWeaponSystemProjectile()
+AWeaponSystemProjectile::AWeaponSystemProjectile():Super()
 {
 	PrimaryActorTick.bCanEverTick = true;
     

@@ -21,7 +21,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FProjectileHitDelegate, AActor*, ProjectileActor, AActor*, OtherActor, FVector, Location);
 
 UCLASS(Blueprintable)
-class UEWEAPONSYSBASEPLUGIN_API AWeaponSystemProjectile : public AActor
+class UEWEAPONSYSBASEPLUGIN_API AWeaponSystemProjectile : public AWeaponSysBaseProjectileBase
 {
 	GENERATED_BODY()
 	

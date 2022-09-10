@@ -15,6 +15,7 @@
 #include "WeaponSystem/Score/MovingScoreWidgetBase.h"
 #include "WeaponSystem/Score/ScoreHelper.h"
 #include "WeaponSystem/Weapon/Definition/WeaponDefinition.h"
+#include "WeaponSystem/Projectile/WeaponSysBaseProjectileBase.h"
 #include "WeaponPickupActor.generated.h"
 
 UCLASS()

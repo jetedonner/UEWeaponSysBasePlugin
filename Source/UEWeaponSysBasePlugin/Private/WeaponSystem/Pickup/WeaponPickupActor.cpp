@@ -95,7 +95,7 @@ void AWeaponPickupActor::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherA
     else
     {
         // UDbg::DbgMsg(FString::Printf(TEXT("PickupCharacter NOT Found => Trying Projectile")), 5.0f, FColor::Red);
-        AWeaponSysBaseProjectile* PickupProjectile = Cast<AWeaponSysBaseProjectile>(OtherActor);
+        AWeaponSysBaseProjectileBase* PickupProjectile = Cast<AWeaponSysBaseProjectileBase>(OtherActor);
         if(PickupProjectile)
         {
             // UDbg::DbgMsg(FString::Printf(TEXT("AWeaponPickupActorBase::OnHit(...) PROJECTILE => %s"), *OtherActor->GetName()), 5.0f, FColor::Red);

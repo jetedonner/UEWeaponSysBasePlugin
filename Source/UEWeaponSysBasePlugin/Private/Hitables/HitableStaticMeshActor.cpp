@@ -25,7 +25,7 @@ void AHitableStaticMeshActor::BeginPlay()
 
 void AHitableStaticMeshActor::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {   
-    if(Cast<AWeaponSysBaseProjectile>(OtherActor))
+    if(Cast<AWeaponSysBaseProjectileBase>(OtherActor))
     {
         if(AllowMultipleHits || !IsHit)
         {

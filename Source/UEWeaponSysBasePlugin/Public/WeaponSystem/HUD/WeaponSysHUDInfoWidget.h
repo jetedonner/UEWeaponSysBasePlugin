@@ -52,6 +52,26 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     FWeaponDefinition WeaponDefinition;
 
+    // /** A timer handle used for providing the fire rate delay in-between spawns.*/
+	// FTimerHandle ReloadingTimer;
+    
+    class UtilityTimer* TimerUtil = new UtilityTimer();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    bool IsReloading = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    float ReloadingDuration = 0.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    float ReloadingProgress = 0.0f;
+
+    UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
+    void ShowReloadProgressBar(const float Duration);
+
+    // UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
+    // void UpdateReloadProgressBar();
+
     UFUNCTION(BlueprintCallable, Category="Weapon System|HUD")
     void ShowInfoMessage(const FString& Title, const FString& Desc);
 

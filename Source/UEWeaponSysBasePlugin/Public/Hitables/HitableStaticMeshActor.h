@@ -11,6 +11,7 @@
 #include "CoreMinimal.h"
 #include "Engine/StaticMeshActor.h"
 #include "Components/SphereComponent.h"
+#include "WeaponSystem/Projectile/WeaponSysBaseProjectileBase.h"
 #include "HitableStaticMeshActor.generated.h"
 
 /**

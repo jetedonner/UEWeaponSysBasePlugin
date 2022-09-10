@@ -45,6 +45,9 @@ public:
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
     // bool IsTest = false;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapon System")
+    UAudioComponent* ShotAudioComponent;
+
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Weapon System")
     FVector MuzzleOffset;
 

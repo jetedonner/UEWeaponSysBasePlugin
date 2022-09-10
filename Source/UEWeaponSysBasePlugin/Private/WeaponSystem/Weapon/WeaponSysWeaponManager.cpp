@@ -190,12 +190,12 @@ void UWeaponSysWeaponManager::SetupPlayerInput(class UInputComponent* PlayerInpu
 
 void UWeaponSysWeaponManager::StartShooting(EWeaponFunction WeaponFunction)
 {
-
+    CurrentWeapon->StartShooting(WeaponFunction);
 }
     
 void UWeaponSysWeaponManager::StopShooting()
 {
-
+    CurrentWeapon->StopShooting();
 }
 
 void UWeaponSysWeaponManager::SetCurrentWeapon(int32 WeaponID, bool PlayAudio)
